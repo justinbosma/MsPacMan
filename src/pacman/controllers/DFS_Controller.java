@@ -15,8 +15,10 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import pacman.game.internal.Node;
 
+//Code structure taken from Amy Hoovers BFS algorithm
 public class DFS_Controller extends Controller<MOVE> {
-
+	
+	//initializes ghosts
 	 public static StarterGhosts ghosts = new StarterGhosts();
 	 
 	 // get move method obtains available moves and advances ms Pacman in highest scoring direction
@@ -40,7 +42,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	                gameAtM.advanceGame(m, ghosts.getMove(gameAtM, timeDue));
 	                int tempHighScore = this.dfs(new PacManNode(gameAtM, 0), 10);
 	                
-	                
+	                //Sets the highest move from running dfs
 	                if(highScore < tempHighScore)
 	                {
 	                    highScore = tempHighScore;
@@ -61,8 +63,9 @@ public class DFS_Controller extends Controller<MOVE> {
 		{
 
 	            int highScore = -1;
-			
+	            //initialize stack
 	            Deque<PacManNode> stack = new ArrayDeque<PacManNode>();
+	            //push rootGameState onto stack
 	            stack.push(rootGameState);
 
 			//System.out.println("Adding Node at Depth: " + rootGameState.depth);
@@ -71,6 +74,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	  			//keep adding the various states to the stack. The last state on is the first one traversed.
 	            while(!stack.isEmpty())
 	                {
+	            		//pops most recently added node
 	                    PacManNode pmnode = stack.pop();
 	                    
 	                    //get all possible moves
@@ -78,6 +82,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	                    
 	                    System.out.println("Removing Node at Depth: " + pmnode.depth + " Score " + pmnode.gameState.getScore());
 	                    
+	                    //If the current depth is equal to max, start checking scores
 	                    if(pmnode.depth >= maxdepth)
 	                    {
 	                        int score = pmnode.gameState.getScore();
