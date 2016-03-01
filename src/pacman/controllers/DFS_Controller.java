@@ -40,7 +40,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	                
 	                //Advances copy of game
 	                gameAtM.advanceGame(m, ghosts.getMove(gameAtM, timeDue));
-	                int tempHighScore = this.dfs(new PacManNode(gameAtM, 0), 10);
+	                int tempHighScore = this.dfsRecursive(new PacManNode(gameAtM, 0, null), 10);
 	                
 	                //Sets the highest move from running dfs
 	                if(highScore < tempHighScore)
@@ -57,65 +57,39 @@ public class DFS_Controller extends Controller<MOVE> {
 	              return highMove;
 	                
 		}
-	        // Travels graph until depth is equal to max depth. 
-			//Selects the highest scoring node to go to
-	        public int dfs(PacManNode rootGameState, int maxdepth)
-		{
+	        
+	        public int dfsRecursive(PacManNode rootGameState, int maxDepth) {
+	        	int highScore = -1;
+	        	PacManNode pmNode = rootGameState;
+	        	MOVE[] allMoves = pmNode.gameState.getPossibleMoves(pmNode.gameState.getPacmanCurrentNodeIndex());
+	        	
+	        	if(rootGameState.depth >= maxDepth) {
+	        		int score = pmNode.gameState.getScore();
+                    
+                    if (highScore < score) {
+                             highScore = score;
+                    }
+                    return score;
+	        		
+	        	}
+	        	
+	        	else {
+	        		for(MOVE m: allMoves) {
 
-	            int highScore = -1;
-	            //initialize stack
-	            Deque<PacManNode> stack = new ArrayDeque<PacManNode>();
-	            //push rootGameState onto stack
-	            stack.push(rootGameState);
+	        			
+	        			Game gameCopy = pmNode.gameState.copy();
+	        			gameCopy.advanceGame(m,  ghosts.getMove(gameCopy, 0));
+	        			PacManNode node = new PacManNode(gameCopy, pmNode.depth+1, null);
+	        			int score = dfsRecursive(node, maxDepth);
 
-			//System.out.println("Adding Node at Depth: " + rootGameState.depth);
-	                
-	  			//While the stack is not empty and the depth does not equal max depth
-	  			//keep adding the various states to the stack. The last state on is the first one traversed.
-	            while(!stack.isEmpty())
-	                {
-	            		//pops most recently added node
-	                    PacManNode pmnode = stack.pop();
-	                    
-	                    //get all possible moves
-	                    MOVE[] allMoves = pmnode.gameState.getPossibleMoves(pmnode.gameState.getPacmanCurrentNodeIndex());
-	                    
-	                    System.out.println("Removing Node at Depth: " + pmnode.depth + " Score " + pmnode.gameState.getScore());
-	                    
-	                    //If the current depth is equal to max, start checking scores
-	                    if(pmnode.depth >= maxdepth)
-	                    {
-	                        int score = pmnode.gameState.getScore();
+	        			System.out.println(m + " score: " + score + " depth: " + pmNode.depth);
 	                       
-	                         if (highScore < score)
-	                                  highScore = score;
-	                    }
-	                    
-	                    else
-	                    {
-
-	                        //Add children to stack for each allowable move
-	                        for(MOVE m: allMoves)
-	                        {
-	                        	int d = pmnode.depth +1;
-	                        	System.out.println(m + " " + d);
-	                        	
-	                        	//Copies game state for advancing 
-	                            Game gameCopy = pmnode.gameState.copy();
-	                            
-	                            //Advances game in direction m
-	                            gameCopy.advanceGame(m, ghosts.getMove(gameCopy, 0));
-	                            
-	                            //Sets new PacMan node with gameCopy and adds 1 to depth
-	                            PacManNode node = new PacManNode(gameCopy, pmnode.depth+1);
-	                            stack.push(node);
-	                        }
-	                    }
-
-			}
-	                
-	                return highScore;
-		}
+                        if (highScore < score)
+                                 highScore = score;
+	        		}
+	        	}
+	        	return highScore;
+	        }
 	        
 	    
 	}
