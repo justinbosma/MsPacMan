@@ -12,6 +12,7 @@ import java.util.Random;
 
 import pacman.controllers.Controller;
 import pacman.controllers.DFS_Controller;
+import pacman.controllers.Evolutionary_controller;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
 import pacman.controllers.a_star;
@@ -69,7 +70,7 @@ public class Executor
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
 		
-		exec.runGameTimed(new a_star(),new StarterGhosts(),visual);
+		exec.runGameTimed(new Evolutionary_controller(),new StarterGhosts(),visual);
 		
 		/*
 		//run the game in asynchronous mode but advance as soon as both controllers are ready  - this is the mode of the competition.

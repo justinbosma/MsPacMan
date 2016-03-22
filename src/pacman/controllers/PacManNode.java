@@ -20,6 +20,7 @@ public class PacManNode
     int score;
     PacManNode parent;
     PacManNode[] children; 
+    ArrayList<MOVE> moveList;
 
     
     public PacManNode(Game game, int depth, PacManNode parent)
@@ -28,6 +29,25 @@ public class PacManNode
         this.depth = depth;
         this.score = game.getScore();
         this.parent = parent;
+    }
+    
+    public PacManNode(Game game)
+    {
+        this.gameState = game;
+        this.depth = depth;
+        this.score = game.getScore();
+        this.parent = parent;
+    }
+    
+    public PacManNode copy() {
+    	PacManNode node = new PacManNode(this.gameState);
+    	node.depth = this.depth;
+    	node.prevMove = this.prevMove;
+    	node.score = this.score;
+    	node.parent = this.parent;
+    	node.children = this.children;
+    	node.moveList = this.moveList;
+    	return node;
     }
 
 
@@ -41,7 +61,7 @@ class NodeComparator implements Comparator<PacManNode> {
 	public int compare(PacManNode o1, PacManNode o2) {
 		float diff;
 		int out;
-		diff = (o1.gameState.getScore()/o1.depth) - (o2.gameState.getScore()/o2.depth);
+		diff = (o1.gameState.getScore()) - (o2.gameState.getScore());
 		out = Math.round(diff);
 		return out;
 	}
