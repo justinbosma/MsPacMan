@@ -34,9 +34,7 @@ public class PacManNode
     public PacManNode(Game game)
     {
         this.gameState = game;
-        this.depth = depth;
         this.score = game.getScore();
-        this.parent = parent;
     }
     
     public PacManNode copy() {
@@ -61,7 +59,7 @@ class NodeComparator implements Comparator<PacManNode> {
 	public int compare(PacManNode o1, PacManNode o2) {
 		float diff;
 		int out;
-		diff = (o1.gameState.getScore()) - (o2.gameState.getScore());
+		diff = (o1.gameState.getScore()/o1.depth) - (o2.gameState.getScore()/o2.depth);
 		out = Math.round(diff);
 		return out;
 	}

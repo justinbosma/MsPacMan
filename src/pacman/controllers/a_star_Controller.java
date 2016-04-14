@@ -23,21 +23,25 @@ import pacman.game.internal.Node;
 
 
 public class a_star_Controller extends Controller<MOVE> {
-	
+
+	static MOVE last = MOVE.UP;
 	//initializes ghosts
 	 public static StarterGhosts ghosts = new StarterGhosts();
-	 
+	 public static ArrayList<MOVE> moveList;
 
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
-		MOVE[] allMoves=game.getPossibleMoves(game.getPacmanCurrentNodeIndex());
-		
+		//MOVE[] allMoves=game.getPossibleMoves(game.getPacmanCurrentNodeIndex());
+
+
 		Game gameCopy = game.copy();
 		Game gameATM = gameCopy;
-		PacManNode pNode = new PacManNode(gameATM, 0, null);
-		ArrayList<MOVE> moveList = aStar(pNode, 12);
-		System.out.println(moveList.get(0));
-		return moveList.get(0);
+		PacManNode pNode = new PacManNode(gameATM, 1, null);
+		moveList = aStar(pNode, 10);
+
+		
+		return moveList.remove(0);
+		
 	}
 	
 	public ArrayList<MOVE> aStar(PacManNode no, int maxDepth) {
@@ -69,26 +73,21 @@ public class a_star_Controller extends Controller<MOVE> {
 			//Max Depth is used as cutoff for how far to search, i.e. goal state is max depth with highest score
 			//Or, 
 			if(n.depth >= maxDepth) {
-				MOVE lastMove = n.prevMove;
-				moveList.add(0, lastMove);
+				//MOVE lastMove = n.prevMove;
+				//moveList.add(0, lastMove);
 				PacManNode current = n.parent;
 				while(!(current.parent == null)) {
 					moveList.add(0, current.prevMove);
+
 					current = current.parent;
 				}
 				return moveList;
 				
 			}
 			else {
-				MOVE[] allMoves = n.gameState.getPossibleMoves(n.gameState.getPacmanCurrentNodeIndex());
+				MOVE[] allMoves = n.gameState.getPossibleMoves(n.gameState.getPacmanCurrentNodeIndex(), n.gameState.getPacmanLastMoveMade());
 				for(MOVE m: allMoves) {
-					
-					//Ignores backwards moves
-					//if(m.opposite() == n.prevMove) {
-						//System.out.println("Fart");
-					//}
-					
-					//else {
+
 						//Copies gameState
 						Game gameCopy = n.gameState.copy();
 						//Advances game
@@ -97,6 +96,7 @@ public class a_star_Controller extends Controller<MOVE> {
 						PacManNode node = new PacManNode(gameCopy, n.depth + 1, n);
 						//Sets prevMove for backtracking
 						node.prevMove = m;
+						System.out.println(m);
 
 						OPEN.add(node);
 					//}

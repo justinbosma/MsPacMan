@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.game.Game;
@@ -119,6 +120,8 @@ public class Evolutionary_controller extends Controller<MOVE>{
 			pool.add(pNode2);
 		}
 	}
+	
+
 	
 	//Takes in the move list of a pacMan node and randomly chooses to change one of the values in the list
 	public void randomMoveAdd(ArrayList<MOVE> moveList, int depth, MOVE[] allMoves, long timeDue) {

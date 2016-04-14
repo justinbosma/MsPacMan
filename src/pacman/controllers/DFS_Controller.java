@@ -25,7 +25,7 @@ public class DFS_Controller extends Controller<MOVE> {
 		public MOVE getMove(Game game,long timeDue)
 		{
 				//Gets possible moves. Eliminates moving into walls
-	            MOVE[] allMoves=game.getPossibleMoves(game.getPacmanCurrentNodeIndex());	        
+	            MOVE[] allMoves=game.getPossibleMoves(game.getPacmanCurrentNodeIndex(), game.getPacmanLastMoveMade());	        
 	            int highScore = -1;
 	            MOVE highMove = null;
 	            
@@ -40,7 +40,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	                
 	                //Advances copy of game
 	                gameAtM.advanceGame(m, ghosts.getMove(gameAtM, timeDue));
-	                int tempHighScore = this.dfsRecursive(new PacManNode(gameAtM, 0, null), 10);
+	                int tempHighScore = this.dfsRecursive(new PacManNode(gameAtM, 0, null), 100);
 	                
 	                //Sets the highest move from running dfs
 	                if(highScore < tempHighScore)
@@ -61,7 +61,7 @@ public class DFS_Controller extends Controller<MOVE> {
 	        public int dfsRecursive(PacManNode rootGameState, int maxDepth) {
 	        	int highScore = -1;
 	        	PacManNode pmNode = rootGameState;
-	        	MOVE[] allMoves = pmNode.gameState.getPossibleMoves(pmNode.gameState.getPacmanCurrentNodeIndex());
+	        	MOVE[] allMoves = pmNode.gameState.getPossibleMoves(pmNode.gameState.getPacmanCurrentNodeIndex(), pmNode.gameState.getPacmanLastMoveMade());
 	        	
 	        	if(rootGameState.depth >= maxDepth) {
 	        		int score = pmNode.gameState.getScore();
