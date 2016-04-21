@@ -60,7 +60,7 @@ public class Evolutionary_controller extends Controller<MOVE>{
 			
 			Game gameCopy = game.copy();
 			Game gameATM = gameCopy;
-			PacManNode pNode = new PacManNode(gameATM);
+			PacManNode pNode = new PacManNode(gameATM, 1, null);
 			pNode.moveList = moveList;
 			//Advances node before putting on priority queue so score is obtained
 			advancePacManNode(pNode, timeDue);
@@ -103,7 +103,7 @@ public class Evolutionary_controller extends Controller<MOVE>{
 		//Creates two new nodes. The second is a copy of the first but with the randomly changed move list
 		for(int k=0; k < helper.size(); k++) {
 			//Create new node
-			PacManNode pNode1 = new PacManNode(gameATM);
+			PacManNode pNode1 = new PacManNode(gameATM, 1 , null);
 			//Copy the old Move list
 			pNode1.moveList = helper.get(k);
 			//Create new node that is copy of other
