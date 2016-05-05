@@ -16,7 +16,6 @@ import pacman.controllers.Evolutionary_controller;
 import pacman.controllers.Final_Controller;
 import pacman.controllers.HumanController;
 import pacman.controllers.KeyBoardInput;
-import pacman.controllers.New_Final_Controller;
 import pacman.controllers.Q_Controller;
 import pacman.controllers.a_star;
 import pacman.controllers.a_star_Controller;
@@ -74,7 +73,7 @@ public class Executor
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
 		
-		exec.runGameTimed(new Q_Controller(),new StarterGhosts(),visual);
+		exec.runGameTimed(new DFS_Controller(),new StarterGhosts(),visual);
 		
 		/*
 		//run the game in asynchronous mode but advance as soon as both controllers are ready  - this is the mode of the competition.
